@@ -1,0 +1,31 @@
+
+You don't need a backend for this project. What does this mean?:
+
+ First of all; contract codes and backend codes are separate things. Contracts are specific pieces of code that allow any application to interact with the blockchain. For example, let's say there are 10 news articles on a news site. Let's assume the contents of these 10 news articles are stored in a database. Here, if a news site has contract codes, the user needs to sign a tx from their own wallet to read the contents of these news sites. This is the basic logic.
+
+ Now that we understand the basic logic, we also understand that the contract and backend codes have different purposes. Our current goal is to complete the contract codes. Give chatgpt the following command:
+
+ (You explained the project idea and then...) For this project idea, what kind of contract (move) codes do we need at the mvp level. Provide me with these codes and proceed without errors.
+
+tasks:
+
+frontend developer:
+
+Create 3 different routes.
+/sponsor-dashboard
+/create-team
+/kick
+
+contract developer:
+
+Enter the prompt above into gpt to get the necessary contract codes
+
+
+Navbar, footer, hero component, landing page,
+Features page
+Technologies you use
+Your revenue model
+How it works
+About
+Team
+Roadmap

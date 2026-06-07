@@ -1,141 +1,249 @@
-# FULCRUM - Decentralized Hackathon & Competition Platform
+<div align="center">
 
-Fulcrum is a decentralized application (dApp) built on the Sui blockchain that facilitates transparent hackathons and competitions. It features sponsor and contestant registration, team formation, jury voting, and an automated prize distribution mechanism using a custom token (`REWARD`).
+# ⚖️ FULCRUM — Merkeziyetsiz Hackathon & Yarışma Platformu
 
-This project was built during a hackathon and has been modernized to run locally on Sui Localnet or on the Sui Testnet, utilizing the latest `@mysten/sui` SDK.
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&pause=1000&color=6366F1&center=true&vCenter=true&width=700&lines=Sui+Blockchain+Üzerinde+Şeffaf+Ödül+Dağıtımı;Akıllı+Kontrat+%7C+Cüzdan+Entegrasyonu;React+%2B+Move+ile+Tam+Merkeziyetsiz+dApp!" alt="Typing SVG" />
 
----
+<br/>
 
-## 🏗 System Architecture
+[![Move](https://img.shields.io/badge/Move-Smart%20Contract-4F46E5?style=for-the-badge&logo=sui&logoColor=white)](https://docs.sui.io/concepts/sui-move-concepts)
+[![React](https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![Sui](https://img.shields.io/badge/Sui-Blockchain-6FBCF0?style=for-the-badge&logo=sui&logoColor=white)](https://sui.io)
+[![Radix UI](https://img.shields.io/badge/Radix%20UI-Themes-8B5CF6?style=for-the-badge&logo=radixui&logoColor=white)](https://www.radix-ui.com)
+[![License](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)](https://github.com/skarayil)
 
-*   **Smart Contracts (Move)**: Handles competition logic, role assignments, team creation, voting, and the custom `REWARD` coin minting and prize distribution.
-*   **Frontend**: React + Vite application using `@radix-ui/themes` for UI and `@mysten/dapp-kit` for wallet connections and Programmable Transaction Blocks (PTBs).
-*   **Backend/Database**: **None**. This project is fully decentralized. All data (competitions, teams, contestants, votes) is stored directly on the Sui blockchain and queried dynamically by the frontend.
+<br/>
 
----
+> **Şeffaf, adil ve tam merkeziyetsiz bir hackathon yarışma platformu.**
+> Sui blockchain üzerinde akıllı kontratlarla yönetilen sponsor kaydı, takım oluşturma, jüri oylaması ve otomatik ödül dağıtımı.
+> Herhangi bir arka uç veya veritabanı gerektirmez — tüm veriler doğrudan zincir üzerinde saklanır.
 
-## 🛠 Prerequisites
+<br/>
 
-Ensure you have the following installed before proceeding:
+### 🌐 [Canlı Demo → fulcrum-demo.vercel.app](https://fulcrum-demo.vercel.app/)
 
-1.  [Node.js](https://nodejs.org/en/) (v18 or newer)
-2.  [Sui CLI](https://docs.sui.io/guides/developer/getting-started/sui-install) (Must be installed to compile and deploy Move contracts)
-3.  A Sui-compatible wallet extension (e.g., [Sui Wallet](https://chrome.google.com/webstore/detail/sui-wallet/opcgkpjkbamceippoeakobhkofmifgmb))
+<br/>
 
----
+[✨ Özellikler](#-özellikler) • [🚀 Kurulum](#-kurulum-ve-çalıştırma) • [📁 Proje Yapısı](#-proje-yapısı) • [🔐 Güvenlik](#-güvenlik) • [👩‍💻 Geliştirici](#-geliştirici)
 
-## 🚀 Step 1: Running the Sui Localnet (Optional, for Local Testing)
-
-If you want to test the application locally without relying on the Testnet, you need to spin up a local Sui network.
-
-1.  Open a new terminal window.
-2.  Start the local network and a local faucet:
-    ```bash
-    sui-test-validator
-    ```
-    *(Leave this terminal running in the background).*
-3.  Configure your Sui CLI to use the local environment (if not already set up):
-    ```bash
-    sui client new-env --alias localnet --rpc http://127.0.0.1:9000
-    sui client switch --env localnet
-    ```
-4.  Get some local SUI tokens for deploying the contract:
-    ```bash
-    sui client faucet
-    ```
-
-*Note: If you are using the Sui Testnet, switch your environment to `testnet` instead.*
+</div>
 
 ---
 
-## 📦 Step 2: Compiling & Deploying the Smart Contract
+## ✨ Özellikler
 
-The smart contract must be deployed before the frontend can interact with it.
-
-1.  Navigate to the `blockchain` directory containing the Move package:
-    ```bash
-    cd blockchain
-    ```
-2.  Build the project to ensure there are no compilation errors:
-    ```bash
-    sui move build
-    ```
-3.  Publish the contract to your active network (Localnet or Testnet):
-    ```bash
-    sui client publish --gas-budget 100000000
-    ```
-4.  **Crucial Step - Extracting Object IDs**:
-    The terminal output will display a large JSON transaction response. You need to extract specific IDs from the `"objectChanges"` array:
-    
-    *   **Package ID**: Look for the object with `"type": "published"`. Copy its `"packageId"`.
-    *   **ContestantRegistry ID**: Look for the `shared` object of type `[PACKAGE_ID]::competition::ContestantRegistry`. Copy its `"objectId"`.
-    *   **RewardRegistry ID**: Look for the `shared` object of type `[PACKAGE_ID]::reward::RewardRegistry`. Copy its `"objectId"`.
-    *   **UpgradeCap ID**: Look for the object of type `0x2::package::UpgradeCap`. Copy its `"objectId"`.
-    *   **DeveloperCap ID**: Look for the object of type `[PACKAGE_ID]::competition::DeveloperCap`. Copy its `"objectId"`.
-
----
-
-## ⚙️ Step 3: Frontend Configuration (.env)
-
-The frontend needs to know the addresses of your newly deployed smart contracts.
-
-1.  Navigate to the `frontend` directory (where `package.json` is located):
-    ```bash
-    cd frontend
-    ```
-2.  Copy the environment template:
-    ```bash
-    cp .env.example .env
-    ```
-3.  Open the `.env` file and paste the IDs you extracted in Step 2:
-
-    ```env
-    # .env
-    VITE_NETWORK=localnet # or testnet
-    
-    # Move Package ID
-    VITE_PACKAGE_ID=0x...
-    
-    # Shared Object IDs
-    VITE_REGISTRY_ID=0x...
-    VITE_REWARD_REGISTRY_ID=0x...
-    
-    # Capability IDs (Optional for UI rendering)
-    VITE_DEVELOPER_CAP_ID=0x...
-    VITE_UPGRADE_CAP_ID=0x...
-    VITE_DEVELOPER_ADDRESS=0x...
-    ```
+<table>
+  <tr>
+    <td align="center">🔗</td>
+    <td><strong>Tam Merkeziyetsiz Mimari</strong></td>
+    <td>Arka uç ya da veritabanı yok — tüm veriler Sui blockchain üzerinde saklanır ve dinamik olarak sorgulanır</td>
+  </tr>
+  <tr>
+    <td align="center">🏆</td>
+    <td><strong>Otomatik Ödül Dağıtımı</strong></td>
+    <td>Yarışma oluşturulduğunda özel <code>REWARD</code> token'ları akıllı kontrat ile basılır; kazananlar arasında eşit bölünür</td>
+  </tr>
+  <tr>
+    <td align="center">👥</td>
+    <td><strong>Sponsor & Yarışmacı Rolleri</strong></td>
+    <td>Ayrı gösterge panelleriyle sponsor ve yarışmacı kayıt, takım oluşturma ve yönetim akışları</td>
+  </tr>
+  <tr>
+    <td align="center">🗳️</td>
+    <td><strong>Jüri Oylama Sistemi</strong></td>
+    <td>Akıllı kontrat üzerinde şeffaf ve değiştirilemez jüri oylaması — sonuçlar zincirden sorgulanır</td>
+  </tr>
+  <tr>
+    <td align="center">💰</td>
+    <td><strong>Özel REWARD Token</strong></td>
+    <td>Move ile yazılmış özel coin; yarışma başına basılır ve kazananlara Programmable Transaction Block ile aktarılır</td>
+  </tr>
+  <tr>
+    <td align="center">🔒</td>
+    <td><strong>Cüzdan Entegrasyonu</strong></td>
+    <td><code>@mysten/dapp-kit</code> ile Sui uyumlu cüzdanlar desteklenir; tüm işlemler imzalı PTB ile gerçekleşir</td>
+  </tr>
+  <tr>
+    <td align="center">🎨</td>
+    <td><strong>Şık Arayüz</strong></td>
+    <td>Radix UI Themes tabanlı temiz ve modern tasarım; React + Vite ile hızlı geliştirme deneyimi</td>
+  </tr>
+  <tr>
+    <td align="center">🌐</td>
+    <td><strong>Localnet & Testnet Desteği</strong></td>
+    <td>Hem yerel Sui ağı hem de Sui Testnet üzerinde tek komutla çalışır; ortam <code>.env</code> ile yönetilir</td>
+  </tr>
+</table>
 
 ---
 
-## 🖥 Step 4: Running the Frontend
+## 🚀 Kurulum ve Çalıştırma
 
-With the contract deployed and the environment configured, you can now run the web interface.
+### 1 — Repoyu Klonla
 
-1.  Install the required dependencies:
-    ```bash
-    npm install
-    ```
-2.  Start the Vite development server:
-    ```bash
-    npm run dev
-    ```
-3.  Open your browser and navigate to `http://localhost:5173`.
+```bash
+git clone https://github.com/skarayil/fulcrum.git
+cd fulcrum
+```
+
+### 2 — Yerel Sui Ağını Başlat *(Opsiyonel)*
+
+Testnet yerine yerel ağda test etmek istiyorsan:
+
+```bash
+# Yeni terminalde yerel ağı başlat (arka planda çalışır)
+sui-test-validator
+
+# Sui CLI'yi localnet'e yönlendir
+sui client new-env --alias localnet --rpc http://127.0.0.1:9000
+sui client switch --env localnet
+
+# Test SUI token'ı al
+sui client faucet
+```
+
+### 3 — Akıllı Kontratı Derle & Yayınla
+
+```bash
+cd blockchain
+
+# Derleme hatası kontrolü
+sui move build
+
+# Ağa yayınla
+sui client publish --gas-budget 100000000
+```
+
+Yayın çıktısındaki `objectChanges` alanından şu ID'leri kopyala:
+
+| Nesne | Nereden Bulunur |
+|-------|-----------------|
+| **Package ID** | `"type": "published"` kaydı |
+| **ContestantRegistry ID** | `competition::ContestantRegistry` shared nesnesi |
+| **RewardRegistry ID** | `reward::RewardRegistry` shared nesnesi |
+| **UpgradeCap ID** | `0x2::package::UpgradeCap` nesnesi |
+| **DeveloperCap ID** | `competition::DeveloperCap` nesnesi |
+
+### 4 — Ortam Değişkenlerini Ayarla
+
+```bash
+cd frontend
+cp .env.example .env
+```
+
+`.env` dosyasını bir önceki adımda aldığın ID'lerle doldur:
+
+```env
+VITE_NETWORK=localnet             # veya testnet
+
+VITE_PACKAGE_ID=0x...
+VITE_REGISTRY_ID=0x...
+VITE_REWARD_REGISTRY_ID=0x...
+VITE_DEVELOPER_CAP_ID=0x...
+VITE_UPGRADE_CAP_ID=0x...
+VITE_DEVELOPER_ADDRESS=0x...
+```
+
+### 5 — Frontend'i Başlat
+
+```bash
+npm install
+npm run dev
+```
+
+Tarayıcında `http://localhost:5173` adresini aç.
+
+> **Not:** Node.js `>=18` ve Sui CLI yüklü olmalıdır. Testnet kullanıyorsan cüzdanın yerleşik faucet'ini kullanabilirsin.
 
 ---
 
-## 🎮 How to Test the Application
+## 📁 Proje Yapısı
 
-1.  **Connect Wallet**: Click the connect button in the top right. Ensure your wallet network matches `VITE_NETWORK` (e.g., Localnet).
-2.  **Get Tokens**: If you are on Testnet, use the Wallet's built-in faucet. If on Localnet, request tokens via the `sui client faucet` command to your wallet address.
-3.  **Contestant Flow**:
-    *   Navigate to **Contestant Dashboard**.
-    *   Register as a Contestant.
-4.  **Sponsor Flow**:
-    *   Navigate to **Sponsor Dashboard**.
-    *   Register as a Sponsor.
-    *   Create a competition (Define rules and `REWARD` prize amount). The transaction will automatically mint custom `REWARD` tokens using the Shared `RewardRegistry` and lock them in the competition.
-    *   Create teams using the addresses of registered contestants.
-    *   Distribute the prize. The UI will extract the team members and split the `REWARD` coins equally among the winners!
+```
+fulcrum/
+├── blockchain/             ← Move akıllı kontratları
+│   ├── sources/
+│   │   ├── competition.move    ← Yarışma, rol ve takım mantığı
+│   │   └── reward.move         ← REWARD coin basımı ve dağıtımı
+│   └── Move.toml
+│
+└── frontend/               ← React + Vite arayüzü
+    ├── src/
+    │   ├── components/         ← UI bileşenleri
+    │   ├── pages/              ← Sponsor & Yarışmacı panelleri
+    │   └── main.jsx
+    ├── .env.example
+    └── package.json
+```
 
-Enjoy your fully decentralized Sui dApp!
+---
+
+## 🌐 Akıllı Kontrat Uç Noktaları
+
+| İşlev | Modül | Açıklama |
+|-------|-------|----------|
+| `register_contestant` | `competition` | Yarışmacı kaydı |
+| `register_sponsor` | `competition` | Sponsor kaydı |
+| `create_competition` | `competition` | Yarışma oluşturma + REWARD basımı |
+| `create_team` | `competition` | Kayıtlı yarışmacılardan takım oluşturma |
+| `vote` | `competition` | Jüri oyu kullanma |
+| `distribute_prize` | `reward` | Ödülü kazanan takıma eşit dağıtma |
+| `mint_reward` | `reward` | Özel REWARD token basımı |
+
+---
+
+## 🔐 Güvenlik
+
+- **Değiştirilemez Kayıtlar:** Tüm yarışma verileri, oylar ve ödül işlemleri Sui blockchain üzerinde kalıcı olarak saklanır
+- **Rol Tabanlı Erişim:** `DeveloperCap` ve `SponsorCap` ile yalnızca yetkili adresler kritik işlemleri gerçekleştirebilir
+- **Şeffaf Ödül Dağıtımı:** Ödül miktarı yarışma oluşturulduğunda kilitlenir; kazananlar arasında kontrat tarafından otomatik bölünür
+- **İmzalı İşlemler:** Tüm kullanıcı eylemleri Programmable Transaction Block (PTB) ile cüzdan imzası gerektirir
+
+---
+
+## 🎮 Test Akışı
+
+1. **Cüzdan Bağla** — Sağ üstteki bağlan butonuna tıkla; ağın `.env`'deki `VITE_NETWORK` ile eşleştiğinden emin ol.
+2. **Token Al** — Testnet'te cüzdanın yerleşik faucet'ini, Localnet'te `sui client faucet` komutunu kullan.
+3. **Yarışmacı Akışı:**
+   - *Contestant Dashboard*'a git ve yarışmacı olarak kayıt ol.
+4. **Sponsor Akışı:**
+   - *Sponsor Dashboard*'a git ve sponsor olarak kayıt ol.
+   - Yarışma oluştur — kural ve ödül miktarını belirle; kontrat REWARD token'larını otomatik basar ve kilitler.
+   - Kayıtlı yarışmacıların adresleriyle takımlar oluştur.
+   - Ödülü dağıt — UI takım üyelerini otomatik çeker ve REWARD coin'lerini eşit böler.
+
+---
+
+## 🛠️ Kullanılan Teknolojiler
+
+| Teknoloji | Kullanım Amacı |
+|-----------|----------------|
+| Move (Sui) | Akıllı kontrat geliştirme |
+| React + Vite | Arayüz geliştirme |
+| @mysten/dapp-kit | Cüzdan bağlantısı ve PTB yönetimi |
+| @mysten/sui SDK | Blockchain sorgulama ve işlem gönderme |
+| Radix UI Themes | UI bileşen kütüphanesi |
+| Sui Localnet / Testnet | Geliştirme ve test ortamı |
+
+---
+
+## 📝 Lisans
+
+Bu yazılım **[Sude Naz Karayıldırım](https://github.com/skarayil)** tarafından geliştirilmiştir.
+Tüm fikri ve hukuki hakları saklıdır. © 2026
+
+---
+
+<div align="center">
+
+## 👩‍💻 Created by Sude Naz Karayıldırım
+
+[![GitHub](https://img.shields.io/badge/GitHub-skarayil-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/skarayil)
+[![42 Profile](https://img.shields.io/badge/42%20Profile-skarayil-black?style=flat-square&logo=42&logoColor=white)](https://profile.intra.42.fr/users/skarayil)
+
+**⭐ Eğer bu proje işinize yaradıysa, repo'ya star vermeyi unutmayın!**
+
+<sub>© 2026 Sude Naz Karayıldırım • FULCRUM — Merkeziyetsiz Hackathon Platformu • github.com/skarayil</sub>
+
+</div>

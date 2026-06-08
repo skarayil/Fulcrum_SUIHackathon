@@ -533,11 +533,11 @@ const Team = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto px-4">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8 max-w-4xl mx-auto px-4">
           {team.map((member, index) => (
             <div 
               key={index}
-              className="card-hover bg-black/40 backdrop-blur border border-blue-500/20 rounded-xl p-8 text-center hover:border-blue-500/50 transition group cursor-pointer flex flex-col items-center"
+              className="w-full max-w-md card-hover bg-black/40 backdrop-blur border border-blue-500/20 rounded-xl p-8 text-center hover:border-blue-500/50 transition group cursor-pointer flex flex-col items-center"
             >
               {member.avatar}
               <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-blue-400 transition">
@@ -552,7 +552,7 @@ const Team = () => {
                 className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition justify-center mx-auto"
                 onClick={(e) => e.stopPropagation()}
               >
-                <span className="font-mono">sudenazkarayıldırım</span>
+                <span className="font-mono">skarayil</span>
                 <Github className="w-5 h-5" />
               </a>
             </div>

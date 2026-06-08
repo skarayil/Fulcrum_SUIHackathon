@@ -11,7 +11,7 @@ export const FulcrumLogo: React.FC<FulcrumLogoProps> = ({
 }) => {
   return (
     <img 
-      src="/logo.png" 
+      src={`${import.meta.env.BASE_URL}logo.png`} 
       alt="Fulcrum Logo"
       width={size}
       height={size}

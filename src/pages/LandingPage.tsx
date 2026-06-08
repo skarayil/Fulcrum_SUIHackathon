@@ -545,14 +545,14 @@ const Team = () => {
               </h3>
               <p className="text-blue-400 font-semibold mb-2">{member.role}</p>
               <p className="text-gray-400 mb-4">{member.description}</p>
-              <a 
+              <a
                 href={member.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition"
+                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition justify-center mx-auto"
                 onClick={(e) => e.stopPropagation()}
               >
-                <span>GitHub</span>
+                <span className="font-mono">sudenazkarayıldırım</span>
                 <Github className="w-5 h-5" />
               </a>
             </div>

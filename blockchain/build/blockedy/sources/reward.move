@@ -1,5 +1,5 @@
 #[allow(lint(public_entry))]
-module blockedy::reward {
+module fulcrum::reward {
     use sui::coin::{Self, TreasuryCap};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};

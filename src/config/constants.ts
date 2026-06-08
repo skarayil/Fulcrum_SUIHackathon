@@ -1,13 +1,13 @@
 // src/config/constants.ts
 
 /**
- * Blockedy Competition dApp Configuration
+ * fulcrum Competition dApp Configuration
  * Contains package ID, module name, and capability IDs for the competition contract
  */
 
 // ========== NEW COMPETITION CONTRACT ==========
 
-// Package ID for blockedy::competition module (with ContestantRegistry)
+// Package ID for fulcrum::competition module (with ContestantRegistry)
 export const PACKAGE_ID = import.meta.env.VITE_PACKAGE_ID || "";
 
 // ContestantRegistry shared object ID

@@ -78,7 +78,7 @@ Configuration and constants:
 ## Important Notes
 
 - All blockchain interactions use `@mysten/dapp-kit`
-- Contract functions are in `blockedy/sources/blockedy.move`
+- Contract functions are in `fulcrum/sources/fulcrum.move`
 - All text content is in English
 - Design uses blue/cyan color scheme
 - Role-based access control protects routes based on wallet capabilities

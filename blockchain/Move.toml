@@ -1,5 +1,5 @@
 [package]
-name = "blockedy"
+name = "fulcrum"
 edition = "2024" # edition = "legacy" to use legacy (pre-2025) Move
 # license = ""           # e.g., "MIT", "GPL", "Apache 2.0"
 # authors = ["..."]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
@@ -8,7 +8,7 @@ edition = "2024" # edition = "legacy" to use legacy (pre-2025) Move
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "testnet-v1.62.0" }
 
 [addresses]
-blockedy = "0x0"
+fulcrum = "0x0"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.

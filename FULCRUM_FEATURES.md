@@ -58,7 +58,7 @@ This documentation explains the new features added to your Sui dApp project.
 ### 1. Deploy Smart Contract
 
 ```bash
-cd blockedy
+cd fulcrum
 sui client publish --gas-budget 100000000
 ```
 
@@ -132,9 +132,9 @@ You will need to update the **SponsorCap** or **ContestantCap** object IDs assig
 
 Project structure:
 ```
-blockedy/
+fulcrum/
   sources/
-    blockedy.move          # New competition module
+    fulcrum.move          # New competition module
 src/
   pages/
     DeveloperDashboard.tsx      # Administrator panel

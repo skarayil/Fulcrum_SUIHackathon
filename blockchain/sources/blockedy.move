@@ -1,5 +1,5 @@
 #[allow(lint(public_entry))]
-module blockedy::competition {
+module fulcrum::competition {
     use sui::coin::{Self, Coin};
     use sui::event;
     use std::string::{Self, String};

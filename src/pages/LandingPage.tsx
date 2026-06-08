@@ -513,13 +513,6 @@ const AboutSection = () => {
 const Team = () => {
   const team = [
     {
-      name: "Muhammed Şengül",
-      role: "Smart Contract & Backend",
-      avatar: <User className="w-16 h-16 text-blue-400 mb-4" />,
-      description: "SUI blockchain development",
-      github: "https://github.com/msngl0234"
-    },
-    {
       name: "Sude Naz Karayıldırım",
       role: "Frontend & UI/UX",
       avatar: <User className="w-16 h-16 text-blue-400 mb-4" />,

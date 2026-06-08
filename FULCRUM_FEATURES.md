@@ -1,10 +1,10 @@
-# Blockedy Competition dApp - New Features
+# Fulcrum Competition dApp - New Features
 
 This documentation explains the new features added to your Sui dApp project.
 
 ## 🚀 New Features
 
-### 1. Move Smart Contract (`blockedy::competition`)
+### 1. Move Smart Contract (`fulcrum::competition`)
 
 #### Data Structures:
 - **DeveloperCap**: Administrator authority (given to deployer)

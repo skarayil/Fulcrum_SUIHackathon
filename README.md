@@ -20,7 +20,7 @@
 
 <br/>
 
-### 🌐 [Canlı Demo → fulcrum-demo.vercel.app](https://fulcrum-demo.vercel.app/)
+### 🌐 [Canlı Demo → fulcrum-demo.vercel.app](https://skarayil.github.io/Fulcrum_SUIHackathon/)
 
 <br/>
 

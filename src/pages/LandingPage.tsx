@@ -516,7 +516,7 @@ const Team = () => {
       name: "Sude Naz Karayıldırım",
       role: "Backend & Frontend",
       avatar: <User className="w-16 h-16 text-blue-400 mb-4" />,
-      description: "User interface design",
+      description: "User interface design and Development",
       github: "https://github.com/skarayil"
     }
   ];
